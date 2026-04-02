@@ -25,7 +25,7 @@ func Hangman() {
 
 	flag := true
 	guesses := make(map[string]bool)
-
+	fmt.Println(word)
 	fmt.Printf("The word contains %d letters\n--------------\n", len(word))
 
 	for flag {
@@ -46,6 +46,11 @@ func Hangman() {
 
 		guesses[userInput] = true
 
+		if len(userInput) > 1 {
+			fmt.Println("Please enter a single letter")
+			continue
+		}
+
 		if strings.Contains(word, strings.ToLower(userInput)) {
 			fmt.Printf("The word contains %s\n", userInput)
 			fmt.Printf("You still have %d lives left\n-------------\n", lives)
@@ -54,9 +59,17 @@ func Hangman() {
 			lives -= 1
 			fmt.Printf("You lost a life! %d lives remaining\n-------------\n", lives)
 		}
+
+		if lives > 0 && strings.Join(revealed[:], "") == word {
+			fmt.Printf("You won! The word was \"%s\"\n", word)
+			flag = false
+		}
+
 		if lives == 0 {
 			flag = false
 			fmt.Printf("You lose! The word was \"%s\"\n", word)
 		}
+
 	}
+
 }
